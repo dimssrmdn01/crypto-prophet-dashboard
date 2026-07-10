@@ -3,7 +3,7 @@
 > **Real-Time Market Forecasting Engine**
 > An end-to-end integrating a vanilla frontend with a high-performance FastAPI backend to predict Cryptocurrency, Forex, and Commodity markets.
 
-A full-stack machine learning application designed to forecast the prices of top-tier assets (including Bitcoin, Ethereum, Gold, and EUR/USD). The system pulls live market data via YFinance and utilizes Lasso Regression—optimized for minimizing Mean Squared Error (MSE) against volatile financial noise to generate real time predictive insights.
+A fullstack machine learning application designed to forecast the prices of top-tier assets (including Bitcoin, Ethereum, Gold, and EUR/USD). The system pulls live market data via YFinance and utilizes Lasso Regression optimized for minimizing Mean Squared Error (MSE) against volatile financial noise to generate real time predictive insights.
 
 ---
 
