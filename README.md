@@ -1,6 +1,21 @@
-#  Crypto Prophet Dashboard
+<div align="center">
 
-A fullstack machine learning application designed to forecast the prices of top-tier assets (including Bitcoin, Ethereum, Gold, and EUR/USD). The system pulls live market data via YFinance and utilizes Lasso Regression optimized for minimizing Mean Squared Error (MSE) against volatile financial noise to generate real time predictive insights.
+# Crypto Prophet Dashboard
+
+[![Typing SVG](https://readme-typing-svg.herokuapp.com?font=Fira+Code&weight=600&size=24&pause=1000&color=F7931A&center=true&vCenter=true&width=600&lines=Real-Time+Market+Forecasting;Powered+by+FastAPI+%26+Lasso+Regression;Top+10+Crypto,+Gold,+%26+Forex)](https://git.io/typing-svg)
+
+![Python](https://img.shields.io/badge/Python-3.9+-blue?style=for-the-badge&logo=python&logoColor=white)
+![FastAPI](https://img.shields.io/badge/FastAPI-005571?style=for-the-badge&logo=fastapi)
+![scikit-learn](https://img.shields.io/badge/scikit--learn-%23F7931E.svg?style=for-the-badge&logo=scikit-learn&logoColor=white)
+![Vanilla JS](https://img.shields.io/badge/Vanilla_JS-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
+![Status](https://img.shields.io/badge/Status-Active-success?style=for-the-badge)
+
+</div>
+
+<br>
+
+> **Real-Time Market Forecasting Engine**
+> An end-to-end project integrating a vanilla frontend with a high-performance FastAPI backend to predict Cryptocurrency, Forex, and Commodity markets.
 
 ---
 
