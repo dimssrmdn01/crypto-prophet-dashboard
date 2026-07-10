@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Crypto Prophet | AI-Powered Forecasting</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#000000;
+    --bg-alt:#060608;
+    --card:#0d0d10;
+    --card-border:#1c1c20;
+    --text:#f5f5f7;
+    --text-dim:#98989d;
+    --text-faint:#5a5a5e;
+    --accent:#F7931A;
+    --accent-glow:rgba(247,147,26,0.35);
+    --green:#30d158;
+    --red:#ff453a;
+    --mono:'IBM Plex Mono', monospace;
+    --sans:'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--sans);
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  a{color:inherit;text-decoration:none;}
+  ::selection{background:var(--accent);color:#000;}
+
+  /* Nav */
+  nav{
+    position:fixed;top:0;left:0;right:0;z-index:100;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:18px 48px;
+    background:rgba(0,0,0,0.7);
+    backdrop-filter:blur(20px);
+    border-bottom:1px solid rgba(255,255,255,0.06);
+  }
+  .logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:17px;letter-spacing:-0.02em;}
+  .logo svg{width:20px;height:20px;fill:var(--text);}
+  .nav-links{display:flex;gap:36px;font-size:14px;color:var(--text-dim);}
+  .nav-links a{transition:color .2s;}
+  .nav-links a:hover{color:var(--text);}
+  .try-btn{
+    background:var(--text);color:#000;padding:10px 20px;border-radius:100px;
+    font-size:14px;font-weight:600;display:flex;align-items:center;gap:6px;
+    transition:transform .2s, box-shadow .2s;
+  }
+  .try-btn:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(255,255,255,0.15);}
+  @media(max-width:900px){.nav-links{display:none;}}
+
+  /* Hero */
+  .hero{
+    min-height:100vh;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    text-align:center;position:relative;padding:120px 24px 80px;
+    background:radial-gradient(ellipse 80% 50% at 50% 0%, rgba(247,147,26,0.15), transparent 70%);
+  }
+  .eyebrow{
+    font-family:var(--mono);font-size:12px;letter-spacing:0.15em;color:var(--accent);
+    text-transform:uppercase;margin-bottom:20px;opacity:0;animation:fadeUp .8s ease forwards;
+  }
+  .hero h1{
+    font-size:clamp(42px,7vw,84px);font-weight:800;letter-spacing:-0.04em;line-height:1.02;
+    background:linear-gradient(180deg,#fff 20%,#9a9aa5 100%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    opacity:0;animation:fadeUp .8s ease .1s forwards;
+  }
+  .hero p{
+    margin-top:22px;font-size:19px;color:var(--text-dim);max-width:560px;line-height:1.5;
+    opacity:0;animation:fadeUp .8s ease .2s forwards;
+  }
+  .hero-ctas{margin-top:36px;display:flex;gap:14px;opacity:0;animation:fadeUp .8s ease .3s forwards;}
+  .btn-primary{
+    background:var(--text);color:#000;padding:14px 28px;border-radius:100px;font-weight:600;font-size:15px;
+    display:flex;align-items:center;gap:8px;transition:transform .2s;
+  }
+  .btn-primary:hover{transform:translateY(-2px);}
+  .btn-secondary{
+    border:1px solid rgba(255,255,255,0.15);padding:14px 28px;border-radius:100px;font-weight:600;font-size:15px;
+    transition:border-color .2s, background .2s;
+  }
+  .btn-secondary:hover{border-color:rgba(255,255,255,0.4);background:rgba(255,255,255,0.04);}
+
+  .hero-stats{
+    display:flex;gap:0;margin-top:72px;opacity:0;animation:fadeUp .8s ease .4s forwards;
+    border:1px solid var(--card-border);border-radius:20px;overflow:hidden;background:rgba(255,255,255,0.02);
+  }
+  .stat{padding:22px 36px;text-align:left;border-right:1px solid var(--card-border);}
+  .stat:last-child{border-right:none;}
+  .stat .num{font-family:var(--mono);font-size:26px;font-weight:600;}
+  .stat .label{font-size:12px;color:var(--text-faint);margin-top:4px;text-transform:uppercase;letter-spacing:0.06em;}
+
+  @keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+
+  .scroll-hint{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);color:var(--text-faint);animation:bounce 2s infinite;}
+  @keyframes bounce{0%,100%{transform:translate(-50%,0);}50%{transform:translate(-50%,8px);}}
+
+  /* Section */
+  section{padding:120px 24px;position:relative;}
+  .section-inner{max-width:1120px;margin:0 auto;}
+  .section-head{text-align:center;max-width:640px;margin:0 auto 64px;}
+  .section-eyebrow{font-family:var(--mono);font-size:12px;color:var(--accent);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:14px;}
+  .section-head h2{font-size:clamp(30px,4vw,46px);font-weight:800;letter-spacing:-0.03em;line-height:1.1;}
+  .section-head p{margin-top:16px;color:var(--text-dim);font-size:17px;line-height:1.6;}
+
+  .card-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+  .card-grid.two{grid-template-columns:repeat(2,1fr);}
+  @media(max-width:800px){.card-grid,.card-grid.two{grid-template-columns:1fr;}}
+
+  .card{
+    background:var(--card);border:1px solid var(--card-border);border-radius:18px;padding:32px;
+    transition:border-color .3s, transform .3s;
+  }
+  .card:hover{border-color:rgba(247,147,26,0.4);transform:translateY(-4px);}
+  .card-icon{
+    width:44px;height:44px;border-radius:12px;background:rgba(247,147,26,0.12);
+    display:flex;align-items:center;justify-content:center;margin-bottom:20px;color:var(--accent);
+  }
+  .card h3{font-size:19px;font-weight:700;letter-spacing:-0.01em;margin-bottom:8px;}
+  .card p{font-size:14.5px;color:var(--text-dim);line-height:1.55;}
+
+  #about{background:var(--bg-alt);}
+
+  /* Table */
+  .model-table{
+    width:100%;border-collapse:collapse;font-family:var(--mono);font-size:13.5px;
+    border:1px solid var(--card-border);border-radius:14px;overflow:hidden;
+  }
+  .model-table th,.model-table td{padding:16px 18px;text-align:left;border-bottom:1px solid var(--card-border);}
+  .model-table th{color:var(--text-faint);font-weight:500;text-transform:uppercase;font-size:11px;letter-spacing:0.08em;background:rgba(255,255,255,0.02);}
+  .model-table tr:last-child td{border-bottom:none;}
+  .model-table tr.best{background:rgba(48,209,88,0.06);}
+  .model-table tr.best td:first-child{color:var(--green);font-weight:600;}
+  .model-table td:first-child{color:var(--text);font-weight:500;}
+  .table-wrap{overflow-x:auto;border-radius:14px;}
+
+  /* Predict */
+  #predict{background:var(--bg-alt);}
+  .predict-panel{
+    max-width:680px;margin:0 auto;background:var(--card);border:1px solid var(--card-border);
+    border-radius:24px;padding:40px;
+  }
+  .field{margin-bottom:22px;}
+  .field label{
+    display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text-dim);margin-bottom:10px;font-weight:500;
+  }
+  .field-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  select,input[type=number]{
+    width:100%;background:#000;border:1px solid var(--card-border);border-radius:12px;
+    padding:14px 16px;color:var(--text);font-size:15px;font-family:var(--sans);
+    appearance:none;-webkit-appearance:none;cursor:pointer;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2398989d' stroke-width='1.5' fill='none' fill-rule='evenodd'/%3E%3C/svg%3E");
+    background-repeat:no-repeat;background-position:right 16px center;
+    transition:border-color .2s;
+  }
+  input[type=number]{cursor:text;background-image:none;}
+  select:focus,input:focus{outline:none;border-color:var(--accent);}
+
+  .generate-btn{
+    width:100%;padding:17px;border-radius:14px;background:var(--text);color:#000;
+    font-weight:700;font-size:15.5px;display:flex;align-items:center;justify-content:center;gap:8px;
+    position:relative;overflow:hidden;transition:transform .15s;
+    box-shadow:0 0 0 rgba(247,147,26,0);
+  }
+  .generate-btn:hover{transform:translateY(-1px);box-shadow:0 8px 30px var(--accent-glow);}
+  .generate-btn:active{transform:translateY(0);}
+  .generate-btn.loading{pointer-events:none;color:transparent;}
+  .spinner{
+    display:none;position:absolute;width:20px;height:20px;border:2.5px solid rgba(0,0,0,0.15);
+    border-top-color:#000;border-radius:50%;animation:spin .7s linear infinite;
+  }
+  .generate-btn.loading .spinner{display:block;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+
+  .result{
+    margin-top:28px;padding-top:28px;border-top:1px solid var(--card-border);
+    display:none;
+  }
+  .result.show{display:block;animation:fadeUp .5s ease forwards;}
+  .result-meta{display:flex;justify-content:space-between;font-size:13px;color:var(--text-faint);margin-bottom:22px;flex-wrap:wrap;gap:8px;}
+  .result-meta span{display:flex;align-items:center;gap:6px;}
+  .result-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px;}
+  .result-box{background:rgba(255,255,255,0.02);border:1px solid var(--card-border);border-radius:14px;padding:18px 20px;}
+  .result-box .rlabel{font-size:12px;color:var(--text-faint);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px;}
+  .result-box .rvalue{font-family:var(--mono);font-size:24px;font-weight:600;}
+  .rvalue.pos{color:var(--green);}
+  .rvalue.neg{color:var(--red);}
+  .sub-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px;}
+  .sub-box{text-align:center;}
+  .sub-box .rlabel{margin-bottom:6px;}
+  .sub-box .rvalue{font-size:17px;}
+  @media(max-width:520px){.sub-grid,.result-grid{grid-template-columns:1fr 1fr;}}
+
+  .chart-title{font-size:13px;color:var(--text-dim);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+  .chart-box{background:rgba(255,255,255,0.02);border:1px solid var(--card-border);border-radius:14px;padding:20px 16px 10px;}
+  .legend{display:flex;gap:18px;margin-top:8px;font-size:12px;color:var(--text-faint);justify-content:center;}
+  .legend span{display:flex;align-items:center;gap:6px;}
+  .dot{width:8px;height:8px;border-radius:50%;}
+
+  footer{
+    padding:48px 24px;text-align:center;color:var(--text-faint);font-size:13px;
+    border-top:1px solid var(--card-border);
+  }
+  footer .logo{justify-content:center;margin-bottom:14px;}
+
+  @media(prefers-reduced-motion:reduce){
+    *{animation:none !important;transition:none !important;}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">
+    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+    Crypto Prophet
+  </div>
+  <div class="nav-links">
+    <a href="#home">Home</a>
+    <a href="#about">Architecture</a>
+    <a href="#technology">Models</a>
+    <a href="#predict">Live Forecast</a>
+  </div>
+  <a href="#predict" class="try-btn">Launch App</a>
+</nav>
+
+<section class="hero" id="home">
+  <div class="eyebrow">Real-Time Market Forecasting</div>
+  <h1>Crypto Prophet</h1>
+  <p>Prediksi volatilitas harga cryptocurrency secara live menggunakan arsitektur machine learning yang divalidasi dengan data pasar real-time.</p>
+  <div class="hero-ctas">
+    <a href="#predict" class="btn-primary">Mulai Prediksi</a>
+    <a href="#technology" class="btn-secondary">Lihat Metrik</a>
+  </div>
+  <div class="hero-stats">
+    <div class="stat"><div class="num">2</div><div class="label">ML Models</div></div>
+    <div class="stat"><div class="num">Live</div><div class="label">Data Feed</div></div>
+    <div class="stat"><div class="num">4+</div><div class="label">Top Assets</div></div>
+    <div class="stat"><div class="num">API</div><div class="label">FastAPI Core</div></div>
+  </div>
+  <div class="scroll-hint">⌄</div>
+</section>
+
+<section id="about">
+  <div class="section-inner">
+    <div class="section-head">
+      <div class="section-eyebrow">System Architecture</div>
+      <h2>Engineered for Volatility</h2>
+      <p>Dibangun untuk menangani data finansial yang penuh noise. Sistem menggunakan penalti analitik untuk mengekstraksi sinyal tren fundamental secara akurat.</p>
+    </div>
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l2.5 2.5"/></svg>
+        </div>
+        <h3>Live Market Data</h3>
+        <p>Terhubung langsung ke pasar finansial menggunakan YFinance untuk menarik riwayat harga historis secara real-time tanpa latensi.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 17l5-5 4 4 8-8"/><path d="M14 8h6v6"/></svg>
+        </div>
+        <h3>Noise Reduction</h3>
+        <p>Memanfaatkan Lasso Regression untuk menyeleksi fitur secara agresif, mencegah overfitting yang sering terjadi pada pergerakan aset kripto.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2l8 4v6c0 5-3.4 8.6-8 10-4.6-1.4-8-5-8-10V6l8-4z"/></svg>
+        </div>
+        <h3>Optimized MSE</h3>
+        <p>Arsitektur divalidasi menggunakan Mean Squared Error paling optimal untuk memastikan output prediksi memiliki tingkat deviasi minimal.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="technology">
+  <div class="section-inner">
+    <div class="section-head">
+      <div class="section-eyebrow">Models Evaluation</div>
+      <h2>Validasi Performa Algoritma</h2>
+      <p>Perbandingan metrik error pada dataset kripto historis. Lasso terbukti lebih tangguh membuang noise dibandingkan model ansambel lainnya.</p>
+    </div>
+    <div class="table-wrap">
+      <table class="model-table">
+        <thead>
+          <tr><th>Model</th><th>MSE</th><th>MAE</th><th>R²</th><th>Status</th></tr>
+        </thead>
+        <tbody>
+          <tr class="best"><td>Lasso Regression</td><td>0.0142</td><td>0.0891</td><td>0.9124</td><td>Optimal</td></tr>
+          <tr><td>XGBoost</td><td>0.0415</td><td>0.1452</td><td>0.8641</td><td>Overfit Risk</td></tr>
+          <tr><td>Random Forest</td><td>0.0621</td><td>0.2109</td><td>0.7915</td><td>Sub-optimal</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section id="predict">
+  <div class="section-inner">
+    <div class="section-head">
+      <div class="section-eyebrow">Live Engine</div>
+      <h2>Market Prediction</h2>
+      <p>Kalkulasi arah harga aset kripto secara real-time via FastAPI.</p>
+    </div>
+
+    <div class="predict-panel">
+      <div class="field">
+        <label>Select Asset</label>
+        <select id="product"></select>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>Period Type</label>
+          <select id="periodType">
+            <option value="day" selected>Daily</option>
+            <option value="week">Weekly</option>
+            <option value="month">Monthly</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Period Value</label>
+          <input type="number" id="periodValue" value="7" min="1" max="30">
+        </div>
+      </div>
+      <button class="generate-btn" id="generateBtn">
+        <span class="btn-label">Execute Forecast</span>
+        <span class="spinner"></span>
+      </button>
+
+      <div class="result" id="result">
+        <div class="result-meta">
+          <span id="metaProduct">Asset</span>
+          <span id="metaPeriod">Period</span>
+        </div>
+        <div class="result-grid">
+          <div class="result-box">
+            <div class="rlabel">Predicted Price</div>
+            <div class="rvalue" id="predictedPrice">$0.00</div>
+          </div>
+          <div class="result-box">
+            <div class="rlabel">Estimated Change</div>
+            <div class="rvalue" id="priceChange">$0.00</div>
+          </div>
+        </div>
+        <div class="sub-grid">
+          <div class="result-box sub-box">
+            <div class="rlabel">Current Price</div>
+            <div class="rvalue" id="currentPrice">$0.00</div>
+          </div>
+          <div class="result-box sub-box">
+            <div class="rlabel">Model Active</div>
+            <div class="rvalue" id="modelUsed">Lasso</div>
+          </div>
+          <div class="result-box sub-box">
+            <div class="rlabel">Status</div>
+            <div class="rvalue" id="confidence">Live</div>
+          </div>
+        </div>
+        <div class="chart-title">Market Trend & Forecast</div>
+        <div class="chart-box">
+          <svg id="chart" viewBox="0 0 600 220" style="width:100%;height:auto;"></svg>
+          <div class="legend">
+            <span><span class="dot" style="background:#f5f5f7"></span>Historical</span>
+            <span><span class="dot" style="background:#F7931A"></span>Forecast</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="logo">
+    <svg viewBox="0 0 24 24" width="18" height="18"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+    Crypto Prophet
+  </div>
+  Data Science Portfolio Project · Terhubung dengan FastAPI Backend.
+</footer>
+
+<script>
+// Config
+const ASSETS = [
+  {name:"Bitcoin (BTC)", ticker:"BTC-USD"},
+  {name:"Ethereum (ETH)", ticker:"ETH-USD"},
+  {name:"Binance Coin (BNB)", ticker:"BNB-USD"},
+  {name:"Ripple (XRP)", ticker:"XRP-USD"},
+  {name:"Solana (SOL)", ticker:"SOL-USD"},
+  {name:"TRON (TRX)", ticker:"TRX-USD"},
+  {name:"Dogecoin (DOGE)", ticker:"DOGE-USD"},
+  {name:"Cardano (ADA)", ticker:"ADA-USD"},
+  {name:"Chainlink (LINK)", ticker:"LINK-USD"},
+  {name:"Stellar (XLM)", ticker:"XLM-USD"},
+  {name:"Gold (GC=F)", ticker:"GC=F"},
+  {name:"Euro (EUR/USD)", ticker:"EURUSD=X"}
+];
+
+// Populate
+const productSelect = document.getElementById('product');
+productSelect.innerHTML = '';
+ASSETS.forEach((p,i)=>{
+  const opt = document.createElement('option');
+  opt.value = i; opt.textContent = p.name;
+  productSelect.appendChild(opt);
+});
+
+// Periods
+const periodDays = {day:1, week:7, month:30};
+
+// Chart
+function drawChart(history, predicted){
+  // Setup
+  const svg = document.getElementById('chart');
+  const W = 600, H = 220, padL = 60, padR = 20, padT = 16, padB = 28;
+  const all = [...history, predicted];
+  const min = Math.min(...all) * 0.99;
+  const max = Math.max(...all) * 1.01;
+  const n = history.length;
+  const xStep = (W - padL - padR) / n;
+
+  // Position
+  const xOf = i => padL + i*xStep;
+  const yOf = v => padT + (1 - (v-min)/(max-min)) * (H - padT - padB);
+
+  // Points
+  let histPts = history.map((v,i)=>`${xOf(i)},${yOf(v)}`).join(' ');
+  const lastX = xOf(n-1), lastY = yOf(history[n-1]);
+  const predX = xOf(n), predY = yOf(predicted);
+
+  // Grid
+  const gridLines = [];
+  for(let g=0; g<=3; g++){
+    const y = padT + g*(H-padT-padB)/3;
+    const val = max - g*(max-min)/3;
+    gridLines.push(`<line x1="${padL}" y1="${y}" x2="${W-padR}" y2="${y}" stroke="#1c1c20" stroke-width="1"/>`);
+    gridLines.push(`<text x="4" y="${y+4}" font-size="10" fill="#5a5a5e" font-family="IBM Plex Mono, monospace">$${val.toFixed(2)}</text>`);
+  }
+
+  // Render
+  svg.innerHTML = `
+    ${gridLines.join('')}
+    <polyline points="${histPts}" fill="none" stroke="#f5f5f7" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+    <line x1="${lastX}" y1="${lastY}" x2="${predX}" y2="${predY}" stroke="#F7931A" stroke-width="2.5" stroke-dasharray="5,4" stroke-linecap="round"/>
+    ${history.map((v,i)=>`<circle cx="${xOf(i)}" cy="${yOf(v)}" r="3" fill="#f5f5f7"/>`).join('')}
+    <circle cx="${predX}" cy="${predY}" r="5" fill="#F7931A"/>
+    <circle cx="${predX}" cy="${predY}" r="9" fill="none" stroke="#F7931A" stroke-width="1.5" opacity="0.5"/>
+  `;
+}
+
+// Predict
+const btn = document.getElementById('generateBtn');
+const resultEl = document.getElementById('result');
+
+// Trigger
+btn.addEventListener('click', ()=>{
+  btn.classList.add('loading');
+  runPrediction();
+});
+
+// Fetch API
+async function runPrediction(){
+  // Init
+  const idx = parseInt(productSelect.value);
+  const asset = ASSETS[idx];
+  const periodType = document.getElementById('periodType').value;
+  const periodValue = Math.max(1, parseInt(document.getElementById('periodValue').value || 1));
+  const days = periodDays[periodType] * periodValue;
+
+  try {
+    // Request
+    const res = await fetch("http://localhost:8000/predict", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ asset: asset.ticker, model_type: "Lasso", days: days })
+    });
+    
+    // Parse
+    const data = await res.json();
+
+    // Check error
+    if (data.error) {
+      btn.classList.remove('loading');
+      alert("Gagal: " + data.error);
+      return;
+    }
+
+    // Update UI
+    document.getElementById('metaProduct').textContent = asset.name;
+    document.getElementById('metaPeriod').textContent = `Forecast: ${days} days ahead`;
+    document.getElementById('predictedPrice').textContent = `$${data.predicted_price.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 4})}`;
+    
+    // Change
+    const changeEl = document.getElementById('priceChange');
+    const sign = data.change >= 0 ? '+' : '';
+    changeEl.textContent = `${sign}$${data.change.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 4})} (${sign}${data.change_pct.toFixed(2)}%)`;
+    changeEl.className = 'rvalue ' + (data.change >= 0 ? 'pos' : 'neg');
+    
+    // Set price
+    document.getElementById('currentPrice').textContent = `$${data.current_price.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 4})}`;
+
+    // Draw
+    drawChart(data.history, data.predicted_price);
+
+    // Show
+    btn.classList.remove('loading');
+    resultEl.classList.add('show');
+    resultEl.scrollIntoView({behavior:'smooth', block:'nearest'});
+
+  } catch (error) {
+    // Log error
+    console.error(error);
+    btn.classList.remove('loading');
+    alert("Connection failed.");
+  }
+}
+</script>
