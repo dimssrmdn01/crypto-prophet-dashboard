@@ -5,5 +5,3 @@ pandas
 numpy
 xgboost
 scikit-learn
-groq
-vectorbt
