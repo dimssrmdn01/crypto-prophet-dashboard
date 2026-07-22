@@ -19,7 +19,7 @@
 
 ---
 
-##  Table of Contents
+##   Table of Contents
 - [Architecture](#-architecture)
 - [Key Features](#-key-features)
 - [Tech Stack](#-tech-stack)
