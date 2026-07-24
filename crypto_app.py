@@ -12,10 +12,10 @@ import warnings
 
 warnings.filterwarnings('ignore')
 
-# Config
+#Config
 st.set_page_config(page_title="Crypto Prophet", layout="wide")
 
-# Styling
+#Styling
 st.markdown("""
     <style>
     .stApp { background-color: #0E1117; color: white; }
@@ -25,7 +25,7 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# Fetch
+#Fetch
 @st.cache_data(ttl=3600)
 def fetch_crypto_data(ticker, days=365):
     end_date = datetime.today()
@@ -66,11 +66,11 @@ def train_and_predict(df, forecast_days, model_type):
         
     return future_dates, future_preds
 
-# Header
+#Header
 st.markdown("<h1 style='text-align: center;'>Crypto Prophet Dashboard</h1>", unsafe_allow_html=True)
 st.markdown("<p style='text-align: center; color: #A0AEC0;'>AI-Powered Real-Time Cryptocurrency Forecasting</p>", unsafe_allow_html=True)
 
-# Inputs
+#Inputs
 COINS = {
     "Bitcoin (BTC)": "BTC-USD",
     "Ethereum (ETH)": "ETH-USD",
@@ -86,23 +86,23 @@ with col2:
 with col3:
     forecast_days = st.number_input("Forecast Period", min_value=1, max_value=30, value=7)
 
-# Process
+#Process
 if st.button("Analyze Market", use_container_width=True):
     with st.spinner("Fetching data..."):
         ticker = COINS[selected_coin]
         df_hist = fetch_crypto_data(ticker, days=365)
         
-        # Current price
+        #Current price
         current_price = float(df_hist['Close'].iloc[-1].iloc[0]) if isinstance(df_hist['Close'].iloc[-1], pd.Series) else float(df_hist['Close'].iloc[-1])
         
-        # Predict
+        #Predict
         future_dates, future_preds = train_and_predict(df_hist, forecast_days, selected_model)
         predicted_price = future_preds[-1]
         
         price_change = predicted_price - current_price
         change_pct = (price_change / current_price) * 100
         
-        # Metrics
+        #Metrics
         st.markdown("---")
         m1, m2, m3, m4 = st.columns(4)
         
@@ -116,7 +116,7 @@ if st.button("Analyze Market", use_container_width=True):
         
         m4.markdown(f"<div class='metric-card'><div class='metric-label'>Model Active</div><div class='metric-value' style='color: #3399FF;'>{selected_model}</div></div>", unsafe_allow_html=True)
 
-        # Chart
+        #Chart
         st.markdown("<h3 style='text-align: center; margin-top: 30px;'>Market Trend & AI Forecast</h3>", unsafe_allow_html=True)
         
         fig = go.Figure()
